@@ -39,8 +39,15 @@ export default function EditProductPage() {
 
     const fetchProduct = async () => {
         try {
+            console.log('Fetching product:', params.id)
             setLoading(true)
             const response = await api.get(`/api/products/${params.id}`)
+            console.log('Product fetched:', response.data)
+
+            if (!response.data || !response.data.product) {
+                throw new Error('Product data missing')
+            }
+
             const product = response.data.product
 
             setFormData({
@@ -53,7 +60,8 @@ export default function EditProductPage() {
             setCurrentImage(product.image)
             setError('')
         } catch (err) {
-            setError('Failed to load product details')
+            console.error('Error fetching product:', err)
+            setError('Failed to load product details: ' + (err.message || 'Unknown error'))
         } finally {
             setLoading(false)
         }
