@@ -89,11 +89,7 @@ export default function EditProductPage() {
                 formDataToSend.append('image', newImage)
             }
 
-            const response = await api.put(`/api/products/${params.id}`, formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+            const response = await api.put(`/api/products/${params.id}`, formDataToSend)
 
             if (response.data.success) {
                 setSuccess('Product updated successfully!')

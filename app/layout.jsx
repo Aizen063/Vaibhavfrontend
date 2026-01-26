@@ -43,7 +43,8 @@ function MobileNav({ isAdminLoggedIn }) {
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
-                        letterSpacing: '-0.02em'
+                        letterSpacing: '-0.02em',
+                        textDecoration: 'none'
                     }}>
                         Vaibhav Enterprises
                     </Link>

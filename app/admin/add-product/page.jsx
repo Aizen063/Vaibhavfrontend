@@ -57,11 +57,7 @@ export default function AddProductPage() {
                 formDataToSend.append('image', image)
             }
 
-            const response = await api.post('/api/products', formDataToSend, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+            const response = await api.post('/api/products', formDataToSend)
 
             if (response.data.success) {
                 setSuccess('Product added successfully!')
