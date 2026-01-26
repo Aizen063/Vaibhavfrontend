@@ -6,6 +6,7 @@ import Link from 'next/link'
 import api from '@/lib/api'
 import { isAuthenticated } from '@/lib/auth'
 import { getImageUrl } from '@/lib/utils'
+import { uploadToCloudinary } from '@/lib/cloudinary'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
 
@@ -77,19 +78,23 @@ export default function EditProductPage() {
         setSuccess('')
         setSubmitting(true)
 
-        try {
-            const formDataToSend = new FormData()
-            formDataToSend.append('name', formData.name)
-            formDataToSend.append('price', formData.price)
-            formDataToSend.append('material', formData.material)
-            formDataToSend.append('color', formData.color)
-            formDataToSend.append('description', formData.description)
 
+        try {
+            let imageUrl = currentImage
             if (newImage) {
-                formDataToSend.append('image', newImage)
+                imageUrl = await uploadToCloudinary(newImage)
             }
 
-            const response = await api.put(`/api/products/${params.id}`, formDataToSend)
+            const productData = {
+                name: formData.name,
+                price: formData.price,
+                material: formData.material,
+                color: formData.color,
+                description: formData.description,
+                image: imageUrl
+            }
+
+            const response = await api.put(`/api/products/${params.id}`, productData)
 
             if (response.data.success) {
                 setSuccess('Product updated successfully!')
@@ -102,149 +107,150 @@ export default function EditProductPage() {
         } finally {
             setSubmitting(false)
         }
-    }
 
-    if (loading) {
+
+        if (loading) {
+            return (
+                <div className="loading">
+                    <div className="spinner"></div>
+                </div>
+            )
+        }
+
         return (
-            <div className="loading">
-                <div className="spinner"></div>
-            </div>
-        )
-    }
+            <div className="section">
+                <div className="container">
+                    <Link href="/admin/dashboard" style={{ color: 'var(--primary-red)', marginBottom: '2rem', display: 'inline-block' }}>
+                        ← Back to Dashboard
+                    </Link>
 
-    return (
-        <div className="section">
-            <div className="container">
-                <Link href="/admin/dashboard" style={{ color: 'var(--primary-red)', marginBottom: '2rem', display: 'inline-block' }}>
-                    ← Back to Dashboard
-                </Link>
+                    <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+                        <h1 style={{ marginBottom: '2rem' }}>Edit Product</h1>
 
-                <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-                    <h1 style={{ marginBottom: '2rem' }}>Edit Product</h1>
+                        {error && <div className="error-message">{error}</div>}
+                        {success && <div className="success-message">{success}</div>}
 
-                    {error && <div className="error-message">{error}</div>}
-                    {success && <div className="success-message">{success}</div>}
+                        <div className="card">
+                            <div className="card-content" style={{ padding: '2rem' }}>
+                                <form onSubmit={handleSubmit}>
+                                    {currentImage && (
+                                        <div style={{ marginBottom: '1.5rem' }}>
+                                            <label className="form-label">Current Image</label>
+                                            <img
+                                                src={getImageUrl(currentImage)}
+                                                alt="Current product"
+                                                style={{
+                                                    width: '200px',
+                                                    height: '200px',
+                                                    objectFit: 'cover',
+                                                    borderRadius: 'var(--radius-md)',
+                                                    display: 'block'
+                                                }}
+                                            />
+                                        </div>
+                                    )}
 
-                    <div className="card">
-                        <div className="card-content" style={{ padding: '2rem' }}>
-                            <form onSubmit={handleSubmit}>
-                                {currentImage && (
-                                    <div style={{ marginBottom: '1.5rem' }}>
-                                        <label className="form-label">Current Image</label>
-                                        <img
-                                            src={getImageUrl(currentImage)}
-                                            alt="Current product"
-                                            style={{
-                                                width: '200px',
-                                                height: '200px',
-                                                objectFit: 'cover',
-                                                borderRadius: 'var(--radius-md)',
-                                                display: 'block'
-                                            }}
+                                    <div className="form-group">
+                                        <label className="form-label">Product Name *</label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            className="form-input"
+                                            placeholder="e.g., Premium Gas Lighter"
+                                            value={formData.name}
+                                            onChange={handleChange}
+                                            required
                                         />
                                     </div>
-                                )}
 
-                                <div className="form-group">
-                                    <label className="form-label">Product Name *</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        className="form-input"
-                                        placeholder="e.g., Premium Gas Lighter"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Price (₹) *</label>
+                                        <input
+                                            type="number"
+                                            name="price"
+                                            className="form-input"
+                                            placeholder="e.g., 299"
+                                            value={formData.price}
+                                            onChange={handleChange}
+                                            min="0"
+                                            step="0.01"
+                                            required
+                                        />
+                                    </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Price (₹) *</label>
-                                    <input
-                                        type="number"
-                                        name="price"
-                                        className="form-input"
-                                        placeholder="e.g., 299"
-                                        value={formData.price}
-                                        onChange={handleChange}
-                                        min="0"
-                                        step="0.01"
-                                        required
-                                    />
-                                </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Material</label>
+                                        <input
+                                            type="text"
+                                            name="material"
+                                            className="form-input"
+                                            placeholder="e.g., Stainless Steel"
+                                            value={formData.material}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Material</label>
-                                    <input
-                                        type="text"
-                                        name="material"
-                                        className="form-input"
-                                        placeholder="e.g., Stainless Steel"
-                                        value={formData.material}
-                                        onChange={handleChange}
-                                    />
-                                </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Color</label>
+                                        <input
+                                            type="text"
+                                            name="color"
+                                            className="form-input"
+                                            placeholder="e.g., Red, Black, Silver"
+                                            value={formData.color}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Color</label>
-                                    <input
-                                        type="text"
-                                        name="color"
-                                        className="form-input"
-                                        placeholder="e.g., Red, Black, Silver"
-                                        value={formData.color}
-                                        onChange={handleChange}
-                                    />
-                                </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Description</label>
+                                        <textarea
+                                            name="description"
+                                            className="form-textarea"
+                                            placeholder="Describe the product features and benefits..."
+                                            value={formData.description}
+                                            onChange={handleChange}
+                                        ></textarea>
+                                    </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Description</label>
-                                    <textarea
-                                        name="description"
-                                        className="form-textarea"
-                                        placeholder="Describe the product features and benefits..."
-                                        value={formData.description}
-                                        onChange={handleChange}
-                                    ></textarea>
-                                </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Replace Image (optional)</label>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            className="form-input"
+                                        />
+                                        {newImage && (
+                                            <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: 'var(--text-light)' }}>
+                                                New image selected: {newImage.name}
+                                            </p>
+                                        )}
+                                    </div>
 
-                                <div className="form-group">
-                                    <label className="form-label">Replace Image (optional)</label>
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                        className="form-input"
-                                    />
-                                    {newImage && (
-                                        <p style={{ marginTop: '0.5rem', fontSize: '0.9rem', color: 'var(--text-light)' }}>
-                                            New image selected: {newImage.name}
-                                        </p>
-                                    )}
-                                </div>
-
-                                <div style={{ display: 'flex', gap: '1rem' }}>
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary btn-large"
-                                        style={{ flex: 1 }}
-                                        disabled={submitting}
-                                    >
-                                        {submitting ? 'Updating...' : 'Update Product'}
-                                    </button>
-                                    <Link
-                                        href="/admin/dashboard"
-                                        className="btn btn-outline btn-large"
-                                        style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                    >
-                                        Cancel
-                                    </Link>
-                                </div>
-                            </form>
+                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary btn-large"
+                                            style={{ flex: 1 }}
+                                            disabled={submitting}
+                                        >
+                                            {submitting ? 'Updating...' : 'Update Product'}
+                                        </button>
+                                        <Link
+                                            href="/admin/dashboard"
+                                            className="btn btn-outline btn-large"
+                                            style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                                        >
+                                            Cancel
+                                        </Link>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }

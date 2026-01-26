@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { isAuthenticated } from '@/lib/auth'
+import { uploadToCloudinary } from '@/lib/cloudinary'
 
 export default function AddProductPage() {
     const router = useRouter()
@@ -46,18 +47,17 @@ export default function AddProductPage() {
         setLoading(true)
 
         try {
-            const formDataToSend = new FormData()
-            formDataToSend.append('name', formData.name)
-            formDataToSend.append('price', formData.price)
-            formDataToSend.append('material', formData.material)
-            formDataToSend.append('color', formData.color)
-            formDataToSend.append('description', formData.description)
-
+            let imageUrl = ''
             if (image) {
-                formDataToSend.append('image', image)
+                imageUrl = await uploadToCloudinary(image)
             }
 
-            const response = await api.post('/api/products', formDataToSend)
+            const productData = {
+                ...formData,
+                image: imageUrl
+            }
+
+            const response = await api.post('/api/products', productData)
 
             if (response.data.success) {
                 setSuccess('Product added successfully!')
