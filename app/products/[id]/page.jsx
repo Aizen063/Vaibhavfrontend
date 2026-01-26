@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import axios from 'axios'
+import { getImageUrl } from '@/lib/utils'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
 
@@ -117,7 +118,7 @@ export default function ProductDetailPage() {
                             {product.image ? (
                                 <div style={{ position: 'relative' }}>
                                     <img
-                                        src={`${API_URL}${product.image}`}
+                                        src={getImageUrl(product.image)}
                                         alt={product.name}
                                         style={{
                                             width: '100%',

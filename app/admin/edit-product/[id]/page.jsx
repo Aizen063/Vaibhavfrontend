@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import api from '@/lib/api'
 import { isAuthenticated } from '@/lib/auth'
+import { getImageUrl } from '@/lib/utils'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
 
@@ -135,7 +136,7 @@ export default function EditProductPage() {
                                     <div style={{ marginBottom: '1.5rem' }}>
                                         <label className="form-label">Current Image</label>
                                         <img
-                                            src={`${API_URL}${currentImage}`}
+                                            src={getImageUrl(currentImage)}
                                             alt="Current product"
                                             style={{
                                                 width: '200px',
