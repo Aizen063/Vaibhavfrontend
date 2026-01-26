@@ -7,7 +7,7 @@ import api from '@/lib/api'
 import { isAuthenticated } from '@/lib/auth'
 import { getImageUrl } from '@/lib/utils'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
 
 export default function EditProductPage() {
     const params = useParams()

@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LockIcon } from '@/app/components/Icons'
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
+
 export default function AdminLoginPage() {
     const [credentials, setCredentials] = useState({ username: '', password: '' })
     const [error, setError] = useState('')
@@ -17,7 +19,7 @@ export default function AdminLoginPage() {
 
         try {
             console.log('Attempting login with:', credentials.username)
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials)

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import axios from 'axios'
 import { getImageUrl } from '@/lib/utils'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
 
 export default function ProductDetailPage() {
     const params = useParams()
