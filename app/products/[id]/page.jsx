@@ -47,35 +47,28 @@ export default function ProductDetailPage() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'var(--charcoal-black)'
+                background: '#ffffff'
             }}>
-                <div style={{
-                    width: '60px',
-                    height: '60px',
-                    border: '4px solid var(--charcoal-medium)',
-                    borderTop: '4px solid var(--flame-orange)',
-                    borderRadius: '50%',
-                    animation: 'spin 0.8s linear infinite'
-                }}></div>
+                <div className="spinner"></div>
             </div>
         )
     }
 
     if (error || !product) {
         return (
-            <div className="section" style={{ background: 'var(--charcoal-black)' }}>
+            <div className="section" style={{ background: '#ffffff', minHeight: '100vh' }}>
                 <div className="container">
                     <div style={{
-                        background: 'var(--charcoal-dark)',
+                        background: '#fff3f3',
                         padding: '2rem',
-                        borderRadius: 'var(--radius-lg)',
-                        border: '2px solid var(--flame-orange)',
+                        borderRadius: '8px',
+                        border: '1px solid #ffcccc',
                         textAlign: 'center'
                     }}>
-                        <p style={{ color: 'var(--flame-orange)', fontSize: '1.25rem', marginBottom: '2rem' }}>
+                        <p style={{ color: '#dc2626', fontSize: '1.125rem', marginBottom: '1.5rem' }}>
                             {error || 'Product not found'}
                         </p>
-                        <Link href="/products" className="btn btn-flame">
+                        <Link href="/products" className="btn btn-primary">
                             ← Back to Products
                         </Link>
                     </div>
@@ -85,255 +78,461 @@ export default function ProductDetailPage() {
     }
 
     return (
-        <div style={{ background: 'var(--charcoal-black)', minHeight: '100vh' }}>
-            <div className="section">
-                <div className="container">
-                    <Link
-                        href="/products"
-                        style={{
-                            color: 'var(--flame-orange)',
-                            marginBottom: '3rem',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            fontWeight: '700',
-                            fontSize: '1.125rem',
-                            transition: 'gap 0.3s'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.gap = '1.25rem'}
-                        onMouseLeave={(e) => e.currentTarget.style.gap = '0.75rem'}
-                    >
-                        <span style={{ fontSize: '1.5rem' }}>←</span> Back to Products
-                    </Link>
+        <>
+            <div className="product-detail-wrapper">
+                {/* Back Button - Mobile Friendly */}
+                <div className="back-section">
+                    <div className="container">
+                        <Link href="/products" className="back-link">
+                            <span>←</span> Back to Products
+                        </Link>
+                    </div>
+                </div>
 
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr',
-                        gap: '5rem',
-                        alignItems: 'start',
-                        marginTop: '3rem'
-                    }}>
-                        {/* Product Image */}
-                        <div style={{ position: 'relative' }}>
-                            {product.image ? (
-                                <div style={{ position: 'relative' }}>
+                <div className="product-detail-container">
+                    <div className="container">
+                        <div className="product-grid">
+                            {/* Product Image Section */}
+                            <div className="product-image-section">
+                                {product.image ? (
                                     <img
                                         src={getImageUrl(product.image)}
                                         alt={product.name}
-                                        style={{
-                                            width: '100%',
-                                            borderRadius: 'var(--radius-xl)',
-                                            boxShadow: 'var(--shadow-flame)'
-                                        }}
+                                        className="product-image"
                                         onError={(e) => {
                                             e.target.src = 'https://via.placeholder.com/600x600?text=Product+Image'
                                         }}
                                     />
-                                    {/* Flame Glow Effect */}
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: '50%',
-                                        left: '50%',
-                                        transform: 'translate(-50%, -50%)',
-                                        width: '80%',
-                                        height: '80%',
-                                        background: 'var(--gradient-glow)',
-                                        filter: 'blur(60px)',
-                                        zIndex: -1,
-                                        animation: 'flameFlicker 3s ease-in-out infinite'
-                                    }}></div>
-                                </div>
-                            ) : (
-                                <div style={{
-                                    width: '100%',
-                                    height: '600px',
-                                    background: 'var(--charcoal-dark)',
-                                    borderRadius: 'var(--radius-xl)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    fontSize: '10rem'
-                                }}>
-                                    🔥
-                                </div>
-                            )}
-
-                            {/* Price Badge */}
-                            <div style={{
-                                position: 'absolute',
-                                top: '2rem',
-                                right: '2rem',
-                                background: 'var(--gradient-flame)',
-                                color: 'var(--heat-white)',
-                                padding: '1rem 2rem',
-                                borderRadius: 'var(--radius-full)',
-                                fontWeight: '900',
-                                fontSize: '2rem',
-                                boxShadow: 'var(--shadow-flame)',
-                                animation: 'glowPulse 2s ease-in-out infinite'
-                            }}>
-                                ₹{product.price}
-                            </div>
-                        </div>
-
-                        {/* Product Details */}
-                        <div>
-                            <h1 style={{
-                                marginBottom: '2rem',
-                                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                                lineHeight: '1.1'
-                            }}>
-                                {product.name}
-                            </h1>
-
-                            {/* Specs */}
-                            <div style={{ marginBottom: '3rem' }}>
-                                {product.material && (
-                                    <div style={{
-                                        marginBottom: '1.5rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '1rem'
-                                    }}>
-                                        <span style={{
-                                            padding: '0.75rem 1.5rem',
-                                            background: 'var(--charcoal-dark)',
-                                            borderRadius: 'var(--radius-lg)',
-                                            border: '1px solid var(--flame-orange)',
-                                            fontWeight: '700',
-                                            color: 'var(--flame-orange)'
-                                        }}>
-                                            Material
-                                        </span>
-                                        <span style={{
-                                            fontSize: '1.25rem',
-                                            color: 'var(--steel-light)'
-                                        }}>
-                                            {product.material}
-                                        </span>
-                                    </div>
-                                )}
-
-                                {product.color && (
-                                    <div style={{
-                                        marginBottom: '1.5rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: '1rem'
-                                    }}>
-                                        <span style={{
-                                            padding: '0.75rem 1.5rem',
-                                            background: 'var(--charcoal-dark)',
-                                            borderRadius: 'var(--radius-lg)',
-                                            border: '1px solid var(--flame-orange)',
-                                            fontWeight: '700',
-                                            color: 'var(--flame-orange)'
-                                        }}>
-                                            Color
-                                        </span>
-                                        <span style={{
-                                            fontSize: '1.25rem',
-                                            color: 'var(--steel-light)'
-                                        }}>
-                                            {product.color}
-                                        </span>
+                                ) : (
+                                    <div className="product-image-placeholder">
+                                        🔥
                                     </div>
                                 )}
                             </div>
 
-                            {/* Description */}
-                            {product.description && (
-                                <div style={{
-                                    marginBottom: '3rem',
-                                    padding: '2rem',
-                                    background: 'var(--charcoal-dark)',
-                                    borderRadius: 'var(--radius-lg)',
-                                    borderLeft: '4px solid var(--flame-orange)'
-                                }}>
-                                    <h3 style={{
-                                        marginBottom: '1rem',
-                                        fontSize: '1.5rem',
-                                        color: 'var(--flame-orange)'
-                                    }}>
-                                        About This Product
-                                    </h3>
-                                    <p style={{
-                                        lineHeight: '1.8',
-                                        color: 'var(--steel-light)',
-                                        fontSize: '1.125rem',
-                                        marginBottom: 0
-                                    }}>
-                                        {product.description}
-                                    </p>
-                                </div>
-                            )}
+                            {/* Product Info Section */}
+                            <div className="product-info-section">
+                                <h1 className="product-title">{product.name}</h1>
 
-                            {/* WhatsApp Contact */}
-                            <div style={{
-                                background: 'var(--charcoal-dark)',
-                                padding: '2.5rem',
-                                borderRadius: 'var(--radius-lg)',
-                                border: '1px solid rgba(255, 107, 53, 0.3)'
-                            }}>
-                                <h3 style={{
-                                    marginBottom: '2rem',
-                                    fontSize: '1.75rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem'
-                                }}>
-                                    <span style={{ fontSize: '2rem' }}>💬</span>
-                                    Contact Our Team
-                                </h3>
-                                <div style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: '1.5rem'
-                                }}>
+                                {/* Price */}
+                                <div className="product-price-section">
+                                    <span className="product-price">₹{product.price}</span>
+                                </div>
+
+                                {/* Specifications */}
+                                {(product.material || product.color) && (
+                                    <div className="product-specifications">
+                                        <h3 className="spec-heading">Specifications</h3>
+                                        <div className="spec-list">
+                                            {product.material && (
+                                                <div className="spec-item">
+                                                    <span className="spec-label">Material</span>
+                                                    <span className="spec-value">{product.material}</span>
+                                                </div>
+                                            )}
+                                            {product.color && (
+                                                <div className="spec-item">
+                                                    <span className="spec-label">Color</span>
+                                                    <span className="spec-value">{product.color}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Description */}
+                                {product.description && (
+                                    <div className="product-description">
+                                        <h3 className="desc-heading">Product Details</h3>
+                                        <p className="desc-text">{product.description}</p>
+                                    </div>
+                                )}
+
+                                {/* Desktop Contact Buttons */}
+                                <div className="contact-buttons-desktop">
                                     <button
                                         onClick={() => handleWhatsAppInquiry('8000075523', 'Hiren')}
-                                        className="btn btn-flame"
-                                        style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            gap: '0.75rem',
-                                            padding: '1.5rem'
-                                        }}
+                                        className="whatsapp-btn"
                                     >
-                                        <span style={{ fontSize: '2rem' }}>💬</span>
-                                        <span style={{ fontSize: '1.125rem', fontWeight: '800' }}>Hiren Rathod</span>
-                                        <span style={{ fontSize: '0.95rem', opacity: 0.9 }}>8000075523</span>
+                                        <span className="whatsapp-icon">💬</span>
+                                        <div className="whatsapp-info">
+                                            <span className="whatsapp-name">Contact Hiren</span>
+                                            <span className="whatsapp-number">8000075523</span>
+                                        </div>
                                     </button>
                                     <button
                                         onClick={() => handleWhatsAppInquiry('9664740945', 'Vaibhav')}
-                                        className="btn btn-flame"
-                                        style={{
-                                            display: 'flex',
-                                            flexDirection: 'column',
-                                            alignItems: 'center',
-                                            gap: '0.75rem',
-                                            padding: '1.5rem'
-                                        }}
+                                        className="whatsapp-btn"
                                     >
-                                        <span style={{ fontSize: '2rem' }}>💬</span>
-                                        <span style={{ fontSize: '1.125rem', fontWeight: '800' }}>Vaibhav Rathod</span>
-                                        <span style={{ fontSize: '0.95rem', opacity: 0.9 }}>9664740945</span>
+                                        <span className="whatsapp-icon">💬</span>
+                                        <div className="whatsapp-info">
+                                            <span className="whatsapp-name">Contact Vaibhav</span>
+                                            <span className="whatsapp-number">9664740945</span>
+                                        </div>
                                     </button>
                                 </div>
+
+                                {/* Add some spacing for mobile sticky footer */}
+                                <div className="mobile-spacing"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Mobile Sticky Footer with Contact Buttons */}
+                <div className="mobile-sticky-footer">
+                    <button
+                        onClick={() => handleWhatsAppInquiry('8000075523', 'Hiren')}
+                        className="mobile-contact-btn"
+                    >
+                        <span>💬</span>
+                        <span>Contact Hiren</span>
+                    </button>
+                    <button
+                        onClick={() => handleWhatsAppInquiry('9664740945', 'Vaibhav')}
+                        className="mobile-contact-btn"
+                    >
+                        <span>💬</span>
+                        <span>Contact Vaibhav</span>
+                    </button>
+                </div>
             </div>
 
             <style jsx>{`
+                .product-detail-wrapper {
+                    background: #ffffff;
+                    min-height: 100vh;
+                    padding-bottom: 80px; /* Space for mobile sticky footer */
+                }
+
+                .back-section {
+                    background: #ffffff;
+                    border-bottom: 1px solid #e5e7eb;
+                    padding: 1rem 0;
+                }
+
+                .back-link {
+                    color: #f97316;
+                    font-weight: 600;
+                    font-size: 0.95rem;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    transition: gap 0.2s;
+                }
+
+                .back-link:hover {
+                    gap: 0.75rem;
+                }
+
+                .product-detail-container {
+                    padding: 2rem 0;
+                }
+
+                .product-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 3rem;
+                    align-items: start;
+                }
+
+                .product-image-section {
+                    position: sticky;
+                    top: 2rem;
+                }
+
+                .product-image {
+                    width: 100%;
+                    border-radius: 8px;
+                    border: 1px solid #e5e7eb;
+                    background: #ffffff;
+                }
+
+                .product-image-placeholder {
+                    width: 100%;
+                    aspect-ratio: 1;
+                    background: #f9fafb;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 5rem;
+                }
+
+                .product-info-section {
+                    background: #ffffff;
+                }
+
+                .product-title {
+                    font-size: clamp(1.5rem, 4vw, 2rem);
+                    font-weight: 600;
+                    color: #111827;
+                    margin-bottom: 1rem;
+                    line-height: 1.3;
+                }
+
+                .product-price-section {
+                    padding: 1.5rem 0;
+                    border-bottom: 1px solid #e5e7eb;
+                    margin-bottom: 1.5rem;
+                }
+
+                .product-price {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #111827;
+                }
+
+                .product-specifications {
+                    margin-bottom: 2rem;
+                    padding: 1.5rem;
+                    background: #f9fafb;
+                    border-radius: 8px;
+                    border: 1px solid #e5e7eb;
+                }
+
+                .spec-heading {
+                    font-size: 1.125rem;
+                    font-weight: 600;
+                    color: #111827;
+                    margin-bottom: 1rem;
+                }
+
+                .spec-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.75rem;
+                }
+
+                .spec-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.75rem;
+                    background: #ffffff;
+                    border-radius: 6px;
+                }
+
+                .spec-label {
+                    font-weight: 600;
+                    color: #6b7280;
+                    font-size: 0.95rem;
+                }
+
+                .spec-value {
+                    font-weight: 500;
+                    color: #111827;
+                    font-size: 0.95rem;
+                }
+
+                .product-description {
+                    margin-bottom: 2rem;
+                }
+
+                .desc-heading {
+                    font-size: 1.125rem;
+                    font-weight: 600;
+                    color: #111827;
+                    margin-bottom: 0.75rem;
+                }
+
+                .desc-text {
+                    color: #4b5563;
+                    line-height: 1.7;
+                    font-size: 0.95rem;
+                    margin: 0;
+                }
+
+                .contact-buttons-desktop {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
+                    margin-top: 2rem;
+                }
+
+                .whatsapp-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    padding: 1.25rem 1.5rem;
+                    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+                    color: #ffffff;
+                    border: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                }
+
+                .whatsapp-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+                }
+
+                .whatsapp-icon {
+                    font-size: 1.75rem;
+                }
+
+                .whatsapp-info {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.25rem;
+                }
+
+                .whatsapp-name {
+                    font-size: 0.95rem;
+                    font-weight: 700;
+                }
+
+                .whatsapp-number {
+                    font-size: 0.85rem;
+                    opacity: 0.9;
+                }
+
+                .mobile-spacing {
+                    display: none;
+                }
+
+                .mobile-sticky-footer {
+                    display: none;
+                }
+
+                /* Mobile Styles - Flipkart Design */
                 @media (max-width: 768px) {
-                    div[style*="grid-template-columns: 1fr 1fr"] {
-                        grid-template-columns: 1fr !important;
+                    .product-detail-wrapper {
+                        padding-bottom: 100px;
+                    }
+
+                    .product-detail-container {
+                        padding: 0;
+                    }
+
+                    .product-grid {
+                        grid-template-columns: 1fr;
+                        gap: 0;
+                    }
+
+                    .product-image-section {
+                        position: static;
+                        background: #ffffff;
+                        padding: 1rem;
+                        border-bottom: 1px solid #e5e7eb;
+                    }
+
+                    .product-image {
+                        border-radius: 8px;
+                    }
+
+                    .product-info-section {
+                        padding: 1rem;
+                    }
+
+                    .product-title {
+                        font-size: 1.25rem;
+                        margin-bottom: 0.75rem;
+                    }
+
+                    .product-price {
+                        font-size: 1.75rem;
+                    }
+
+                    .product-specifications {
+                        margin-bottom: 1.5rem;
+                        padding: 1rem;
+                    }
+
+                    .spec-heading {
+                        font-size: 1rem;
+                    }
+
+                    .spec-item {
+                        padding: 0.5rem;
+                    }
+
+                    .spec-label,
+                    .spec-value {
+                        font-size: 0.875rem;
+                    }
+
+                    .desc-heading {
+                        font-size: 1rem;
+                    }
+
+                    .desc-text {
+                        font-size: 0.875rem;
+                    }
+
+                    /* Hide desktop contact buttons on mobile */
+                    .contact-buttons-desktop {
+                        display: none;
+                    }
+
+                    /* Add spacing for sticky footer */
+                    .mobile-spacing {
+                        display: block;
+                        height: 2rem;
+                    }
+
+                    /* Mobile Sticky Footer */
+                    .mobile-sticky-footer {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 0.75rem;
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        background: #ffffff;
+                        padding: 0.75rem;
+                        border-top: 1px solid #e5e7eb;
+                        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                        z-index: 100;
+                    }
+
+                    .mobile-contact-btn {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.375rem;
+                        padding: 0.875rem;
+                        background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+                        color: #ffffff;
+                        border: none;
+                        border-radius: 6px;
+                        font-weight: 700;
+                        font-size: 0.875rem;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+
+                    .mobile-contact-btn:active {
+                        transform: scale(0.98);
+                    }
+
+                    .mobile-contact-btn span:first-child {
+                        font-size: 1.5rem;
+                    }
+                }
+
+                /* Extra small screens */
+                @media (max-width: 480px) {
+                    .product-title {
+                        font-size: 1.125rem;
+                    }
+
+                    .product-price {
+                        font-size: 1.5rem;
+                    }
+
+                    .mobile-contact-btn {
+                        font-size: 0.8rem;
+                        padding: 0.75rem 0.5rem;
                     }
                 }
             `}</style>
-        </div>
+        </>
     )
 }

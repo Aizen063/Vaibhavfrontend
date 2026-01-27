@@ -760,6 +760,24 @@ a {
   [style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
   }
+
+  /* Better mobile stat cards */
+  [style*="gridTemplateColumns: 'repeat(auto-fit"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  /* Mobile action buttons */
+  [style*="display: 'flex'"][style*="gap: '1.5rem'"] {
+    flex-direction: column;
+    gap: 1rem !important;
+    width: 100%;
+  }
+
+  [style*="display: 'flex'"][style*="gap: '1.5rem'"] a,
+  [style*="display: 'flex'"][style*="gap: '1.5rem'"] button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
@@ -768,13 +786,14 @@ a {
   }
 
   .btn {
-    padding: 0.875rem 1.75rem;
-    font-size: 0.95rem;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
   }
 
   .btn-large {
-    padding: 1rem 2rem;
-    font-size: 1rem;
+    padding: 1rem 1.75rem;
+    font-size: 0.95rem;
   }
 
   .card-cinematic {
@@ -790,6 +809,15 @@ a {
   [style*="gap: '2.5rem'"],
   [style*="gap: '2rem'"] {
     gap: 1rem !important;
+  }
+
+  /* Smaller text sizes for tiny screens */
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
   }
 }
 
