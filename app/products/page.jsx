@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { getImageUrl } from '@/lib/utils'
+import { FlameIcon, ShoppingBagIcon, ArrowRightIcon, SparkleIcon } from '@/app/components/Icons'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
 
@@ -54,38 +55,57 @@ export default function ProductsPage() {
             <div style={{
                 minHeight: '100vh',
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: 'var(--charcoal-black)'
+                background: 'var(--bg-primary)',
+                backgroundImage: 'var(--gradient-mesh)',
+                gap: '2rem'
             }}>
-                <div style={{
-                    width: '60px',
-                    height: '60px',
-                    border: '4px solid var(--charcoal-medium)',
-                    borderTop: '4px solid var(--flame-orange)',
-                    borderRadius: '50%',
-                    animation: 'spin 0.8s linear infinite'
-                }}></div>
-                <style jsx>{`
-                    @keyframes spin {
-                        to { transform: rotate(360deg); }
-                    }
-                `}</style>
+                <FlameIcon size={60} style={{ opacity: 0.4 }} />
+                <div className="spinner"></div>
+                <p style={{
+                    color: 'var(--text-muted)',
+                    fontSize: '1.25rem',
+                    fontWeight: '600',
+                    letterSpacing: '1px'
+                }}>
+                    Loading Premium Collection...
+                </p>
             </div>
         )
     }
 
     if (error) {
         return (
-            <div className="section" style={{ background: 'var(--charcoal-black)' }}>
+            <div className="section" style={{
+                background: 'var(--bg-primary)',
+                backgroundImage: 'var(--gradient-mesh)',
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'center'
+            }}>
                 <div className="container text-center">
-                    <div style={{
-                        background: 'var(--charcoal-dark)',
-                        padding: '2rem',
-                        borderRadius: 'var(--radius-lg)',
-                        border: '2px solid var(--flame-orange)'
+                    <div className="glass-card" style={{
+                        padding: '3rem',
+                        maxWidth: '600px',
+                        margin: '0 auto',
+                        border: '2px solid rgba(220, 53, 69, 0.5)'
                     }}>
-                        <p style={{ color: 'var(--flame-orange)', fontSize: '1.25rem' }}>{error}</p>
+                        <div style={{ fontSize: '4rem', marginBottom: '1.5rem', opacity: 0.6 }}>⚠️</div>
+                        <p style={{
+                            color: '#ff6b6b',
+                            fontSize: '1.5rem',
+                            fontWeight: '600',
+                            marginBottom: '1rem'
+                        }}>{error}</p>
+                        <button
+                            onClick={fetchProducts}
+                            className="btn btn-primary"
+                            style={{ marginTop: '1rem' }}
+                        >
+                            Try Again
+                        </button>
                     </div>
                 </div>
             </div>
@@ -93,60 +113,142 @@ export default function ProductsPage() {
     }
 
     return (
-        <div style={{ background: 'var(--charcoal-black)', minHeight: '100vh' }}>
-            {/* Hero Section */}
+        <div style={{
+            background: 'var(--bg-primary)',
+            backgroundImage: 'var(--gradient-mesh)',
+            backgroundAttachment: 'fixed',
+            minHeight: '100vh'
+        }}>
+            {/* Hero Section - Premium Header */}
             <section style={{
-                background: 'var(--gradient-charcoal)',
-                padding: '6rem 0 4rem',
+                background: 'var(--bg-secondary)',
+                padding: '7rem 0 5rem',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                borderBottom: '1px solid var(--glass-border)'
             }}>
+                {/* Ambient orbs */}
                 <div className="flame-glow" style={{
                     position: 'absolute',
-                    top: '50%',
-                    right: '-10%',
-                    width: '500px',
-                    height: '500px'
+                    top: '0',
+                    right: '0',
+                    width: '600px',
+                    height: '600px',
+                    background: 'radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%)'
+                }}></div>
+                <div className="flame-glow" style={{
+                    position: 'absolute',
+                    bottom: '0',
+                    left: '0',
+                    width: '600px',
+                    height: '600px',
+                    background: 'radial-gradient(circle, rgba(20, 184, 166, 0.3) 0%, transparent 70%)',
+                    animationDelay: '2s'
                 }}></div>
 
                 <div className="container" style={{ position: 'relative', zIndex: 10 }}>
-                    <h1 className="text-center" style={{
-                        fontSize: 'clamp(3rem, 6vw, 4.5rem)',
-                        marginBottom: '1.5rem'
+                    <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                        <div style={{ marginBottom: '1.5rem', opacity: 0.7 }}>
+                            <FlameIcon size={64} />
+                        </div>
+                        <h1 style={{
+                            fontSize: 'clamp(3rem, 8vw, 5.5rem)',
+                            marginBottom: '1.5rem',
+                            fontWeight: '900',
+                            lineHeight: '1'
+                        }}>
+                            Premium <span className="text-gradient-primary">Collection</span>
+                        </h1>
+                        <p style={{
+                            fontSize: '1.5rem',
+                            color: 'var(--text-muted)',
+                            maxWidth: '750px',
+                            margin: '0 auto',
+                            fontWeight: '500',
+                            lineHeight: '1.7'
+                        }}>
+                            Discover gas lighters built for performance, safety, and style
+                        </p>
+                    </div>
+
+                    {/* Stats */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '3rem',
+                        flexWrap: 'wrap',
+                        marginTop: '3rem'
                     }}>
-                        Premium <span className="text-gradient-flame">Collection</span>
-                    </h1>
-                    <p className="text-center" style={{
-                        fontSize: '1.25rem',
-                        color: 'var(--steel-light)',
-                        maxWidth: '700px',
-                        margin: '0 auto'
-                    }}>
-                        Discover gas lighters built for performance, safety, and style
-                    </p>
+                        <div className="glass-card" style={{ padding: '1.5rem 2.5rem', textAlign: 'center' }}>
+                            <div style={{
+                                fontSize: '2rem',
+                                fontWeight: '900',
+                                background: 'var(--gradient-primary)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>
+                                {products.length}
+                            </div>
+                            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: '600', marginTop: '0.25rem' }}>
+                                Products Available
+                            </div>
+                        </div>
+                        <div className="glass-card" style={{ padding: '1.5rem 2.5rem', textAlign: 'center' }}>
+                            <div style={{
+                                fontSize: '2rem',
+                                fontWeight: '900',
+                                background: 'var(--gradient-accent)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text'
+                            }}>
+                                100%
+                            </div>
+                            <div style={{ fontSize: '0.95rem', color: 'var(--text-muted)', fontWeight: '600', marginTop: '0.25rem' }}>
+                                Quality Tested
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {/* Products Grid */}
-            <section className="section">
+            {/* Products Grid - Premium 3D Cards */}
+            <section className="section" style={{ paddingTop: '5rem', paddingBottom: '6rem' }}>
                 <div className="container">
                     {products.length === 0 ? (
-                        <div className="text-center" style={{ padding: '4rem 0' }}>
-                            <div style={{
-                                fontSize: '6rem',
-                                marginBottom: '2rem',
-                                filter: 'drop-shadow(0 0 30px var(--flame-glow))'
-                            }}>🔥</div>
-                            <h3 style={{ marginBottom: '1rem', fontSize: '2rem' }}>No products available yet</h3>
-                            <p style={{ color: 'var(--steel-light)', fontSize: '1.125rem' }}>
-                                Check back soon for our latest collection!
-                            </p>
+                        <div className="text-center" style={{ padding: '6rem 0' }}>
+                            <div className="glass-card" style={{
+                                padding: '4rem 3rem',
+                                maxWidth: '600px',
+                                margin: '0 auto'
+                            }}>
+                                <div style={{
+                                    fontSize: '6rem',
+                                    marginBottom: '2rem',
+                                    filter: 'drop-shadow(0 0 40px rgba(139, 92, 246, 0.5))'
+                                }}>
+                                    <FlameIcon size={96} />
+                                </div>
+                                <h3 style={{
+                                    marginBottom: '1rem',
+                                    fontSize: '2.5rem',
+                                    fontWeight: '700'
+                                }}>No products available yet</h3>
+                                <p style={{
+                                    color: 'var(--text-muted)',
+                                    fontSize: '1.25rem',
+                                    lineHeight: '1.7'
+                                }}>
+                                    Check back soon for our latest premium collection!
+                                </p>
+                            </div>
                         </div>
                     ) : (
                         <div style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 350px), 1fr))',
-                            gap: '2.5rem'
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 380px), 1fr))',
+                            gap: '3rem'
                         }}>
                             {products.map((product, index) => (
                                 <Link
@@ -162,13 +264,16 @@ export default function ProductsPage() {
                                             display: 'flex',
                                             flexDirection: 'column',
                                             overflow: 'hidden',
-                                            padding: 0
+                                            padding: 0,
+                                            background: 'var(--glass-bg)',
                                         }}
                                     >
+                                        {/* Image Container with 3D effect */}
                                         <div style={{
                                             position: 'relative',
                                             overflow: 'hidden',
-                                            height: '300px'
+                                            height: '320px',
+                                            background: 'var(--bg-tertiary)'
                                         }}>
                                             {product.image ? (
                                                 <img
@@ -178,109 +283,154 @@ export default function ProductsPage() {
                                                         width: '100%',
                                                         height: '100%',
                                                         objectFit: 'cover',
-                                                        transition: 'transform 0.6s ease'
+                                                        transition: 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
                                                     }}
                                                     onError={(e) => {
-                                                        e.target.src = 'https://via.placeholder.com/350x300?text=Product+Image'
+                                                        e.target.src = 'https://via.placeholder.com/380x320?text=Product+Image'
                                                     }}
-                                                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
-                                                    onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                                                    onMouseEnter={(e) => e.target.style.transform = 'scale(1.15) rotate(2deg)'}
+                                                    onMouseLeave={(e) => e.target.style.transform = 'scale(1) rotate(0deg)'}
                                                 />
                                             ) : (
                                                 <div style={{
                                                     width: '100%',
                                                     height: '100%',
-                                                    background: 'var(--charcoal-medium)',
+                                                    background: 'var(--bg-tertiary)',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
                                                     fontSize: '5rem'
                                                 }}>
-                                                    🔥
+                                                    <FlameIcon size={96} />
                                                 </div>
                                             )}
 
-                                            {/* Flame Glow Overlay */}
+                                            {/* Gradient Overlay */}
                                             <div style={{
                                                 position: 'absolute',
                                                 inset: 0,
-                                                background: 'radial-gradient(circle at center, transparent 40%, rgba(13,13,13,0.8) 100%)',
+                                                background: 'linear-gradient(to top, rgba(10, 1, 24, 0.9) 0%, transparent 60%)',
                                                 opacity: 0,
                                                 transition: 'opacity 0.4s'
                                             }} className="product-overlay"></div>
+
+                                            {/* Top accent bar */}
+                                            <div style={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                right: 0,
+                                                height: '4px',
+                                                background: 'var(--gradient-primary)'
+                                            }}></div>
                                         </div>
 
-                                        <div style={{ padding: '2rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                                        {/* Content */}
+                                        <div style={{
+                                            padding: '2.5rem 2rem',
+                                            flex: 1,
+                                            display: 'flex',
+                                            flexDirection: 'column'
+                                        }}>
                                             <h3 style={{
-                                                fontSize: '1.75rem',
+                                                fontSize: '1.875rem',
                                                 marginBottom: '1rem',
-                                                color: 'var(--heat-white)'
+                                                color: 'var(--text-primary)',
+                                                fontWeight: '700',
+                                                lineHeight: '1.3'
                                             }}>
                                                 {product.name}
                                             </h3>
 
-                                            <p style={{
-                                                fontSize: '2rem',
-                                                fontWeight: '900',
-                                                background: 'var(--gradient-flame)',
-                                                WebkitBackgroundClip: 'text',
-                                                WebkitTextFillColor: 'transparent',
-                                                backgroundClip: 'text',
-                                                marginBottom: '1rem'
+                                            {/* Price Badge */}
+                                            <div style={{
+                                                display: 'inline-block',
+                                                padding: '0.75rem 1.5rem',
+                                                background: 'var(--gradient-primary)',
+                                                borderRadius: 'var(--radius-full)',
+                                                marginBottom: '1.5rem',
+                                                alignSelf: 'flex-start'
                                             }}>
-                                                ₹{product.price}
-                                            </p>
-
-                                            <div style={{ marginBottom: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                                                {product.material && (
-                                                    <span style={{
-                                                        padding: '0.4rem 1rem',
-                                                        background: 'var(--charcoal-medium)',
-                                                        borderRadius: 'var(--radius-full)',
-                                                        fontSize: '0.875rem',
-                                                        color: 'var(--steel-light)',
-                                                        border: '1px solid rgba(255,255,255,0.1)'
-                                                    }}>
-                                                        {product.material}
-                                                    </span>
-                                                )}
-                                                {product.color && (
-                                                    <span style={{
-                                                        padding: '0.4rem 1rem',
-                                                        background: 'var(--charcoal-medium)',
-                                                        borderRadius: 'var(--radius-full)',
-                                                        fontSize: '0.875rem',
-                                                        color: 'var(--steel-light)',
-                                                        border: '1px solid rgba(255,255,255,0.1)'
-                                                    }}>
-                                                        {product.color}
-                                                    </span>
-                                                )}
+                                                <span style={{
+                                                    fontSize: '2rem',
+                                                    fontWeight: '900',
+                                                    color: 'var(--text-primary)'
+                                                }}>
+                                                    ₹{product.price}
+                                                </span>
                                             </div>
 
+                                            {/* Tags */}
+                                            {(product.material || product.color) && (
+                                                <div style={{
+                                                    marginBottom: '1.5rem',
+                                                    display: 'flex',
+                                                    gap: '0.75rem',
+                                                    flexWrap: 'wrap'
+                                                }}>
+                                                    {product.material && (
+                                                        <span style={{
+                                                            padding: '0.5rem 1.25rem',
+                                                            background: 'var(--glass-bg)',
+                                                            backdropFilter: 'blur(8px)',
+                                                            borderRadius: 'var(--radius-full)',
+                                                            fontSize: '0.9rem',
+                                                            color: 'var(--text-secondary)',
+                                                            border: '1px solid var(--glass-border)',
+                                                            fontWeight: '600'
+                                                        }}>
+                                                            {product.material}
+                                                        </span>
+                                                    )}
+                                                    {product.color && (
+                                                        <span style={{
+                                                            padding: '0.5rem 1.25rem',
+                                                            background: 'var(--glass-bg)',
+                                                            backdropFilter: 'blur(8px)',
+                                                            borderRadius: 'var(--radius-full)',
+                                                            fontSize: '0.9rem',
+                                                            color: 'var(--text-secondary)',
+                                                            border: '1px solid var(--glass-border)',
+                                                            fontWeight: '600'
+                                                        }}>
+                                                            {product.color}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
+
+                                            {/* Description */}
                                             {product.description && (
                                                 <p style={{
-                                                    color: 'var(--steel-light)',
+                                                    color: 'var(--text-muted)',
                                                     flex: 1,
-                                                    marginBottom: '1.5rem',
-                                                    lineHeight: '1.6'
+                                                    marginBottom: '2rem',
+                                                    lineHeight: '1.7',
+                                                    fontSize: '1.05rem'
                                                 }}>
-                                                    {product.description.substring(0, 100)}
-                                                    {product.description.length > 100 ? '...' : ''}
+                                                    {product.description.substring(0, 110)}
+                                                    {product.description.length > 110 ? '...' : ''}
                                                 </p>
                                             )}
 
+                                            {/* CTA */}
                                             <div style={{
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 gap: '0.75rem',
-                                                color: 'var(--flame-orange)',
+                                                color: 'var(--primary-400)',
                                                 fontWeight: '700',
-                                                fontSize: '1rem',
-                                                marginTop: 'auto'
-                                            }}>
-                                                View Details
-                                                <span style={{ fontSize: '1.5rem' }}>→</span>
+                                                fontSize: '1.1rem',
+                                                marginTop: 'auto',
+                                                padding: '1rem 1.5rem',
+                                                background: 'var(--glass-bg)',
+                                                borderRadius: 'var(--radius-lg)',
+                                                border: '1px solid var(--glass-border)',
+                                                transition: 'all var(--transition-normal)'
+                                            }} className="product-cta">
+                                                <ShoppingBagIcon size={24} />
+                                                <span>View Details</span>
+                                                <ArrowRightIcon size={20} style={{ marginLeft: 'auto' }} />
                                             </div>
                                         </div>
                                     </div>
@@ -291,9 +441,16 @@ export default function ProductsPage() {
                 </div>
             </section>
 
+            {/* Hover Effect Styles */}
             <style jsx>{`
                 .card-cinematic:hover .product-overlay {
                     opacity: 1;
+                }
+                .card-cinematic:hover .product-cta {
+                    background: var(--gradient-primary);
+                    color: var(--text-primary);
+                    border-color: var(--primary-500);
+                    box-shadow: var(--shadow-glow-primary);
                 }
             `}</style>
         </div>

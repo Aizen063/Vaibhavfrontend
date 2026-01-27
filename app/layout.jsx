@@ -21,12 +21,14 @@ function MobileNav({ isAdminLoggedIn }) {
     return (
         <>
             <nav style={{
-                background: 'rgba(13, 13, 13, 0.95)',
-                backdropFilter: 'blur(10px)',
-                borderBottom: '1px solid rgba(255, 107, 53, 0.2)',
+                background: 'var(--glass-bg)',
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+                borderBottom: '1px solid var(--glass-border)',
                 position: 'sticky',
                 top: 0,
-                zIndex: 1000
+                zIndex: 1000,
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)'
             }}>
                 <div style={{
                     display: 'flex',
@@ -39,12 +41,13 @@ function MobileNav({ isAdminLoggedIn }) {
                     <Link href="/" style={{
                         fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
                         fontWeight: '900',
-                        background: 'linear-gradient(135deg, #FF6B35 0%, #E85D04 100%)',
+                        background: 'var(--gradient-primary)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
                         letterSpacing: '-0.02em',
-                        textDecoration: 'none'
+                        textDecoration: 'none',
+                        filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.3))'
                     }}>
                         Vaibhav Enterprises
                     </Link>
@@ -91,7 +94,7 @@ function MobileNav({ isAdminLoggedIn }) {
                                 position: 'absolute',
                                 height: '3px',
                                 width: '100%',
-                                background: isMenuOpen ? 'var(--flame-orange)' : '#fff',
+                                background: isMenuOpen ? 'var(--primary-500)' : '#fff',
                                 borderRadius: '3px',
                                 opacity: 1,
                                 left: 0,
@@ -116,7 +119,7 @@ function MobileNav({ isAdminLoggedIn }) {
                                 position: 'absolute',
                                 height: '3px',
                                 width: '100%',
-                                background: isMenuOpen ? 'var(--flame-orange)' : '#fff',
+                                background: isMenuOpen ? 'var(--primary-500)' : '#fff',
                                 borderRadius: '3px',
                                 opacity: 1,
                                 left: 0,
@@ -136,8 +139,9 @@ function MobileNav({ isAdminLoggedIn }) {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                background: 'rgba(13, 13, 13, 0.98)',
-                backdropFilter: 'blur(10px)',
+                background: 'var(--bg-primary)',
+                backgroundImage: 'var(--gradient-mesh)',
+                backdropFilter: 'blur(24px)',
                 zIndex: 999,
                 display: isMenuOpen ? 'flex' : 'none',
                 flexDirection: 'column',
@@ -222,7 +226,7 @@ function MobileNav({ isAdminLoggedIn }) {
 
             <style jsx>{`
                 .mobile-nav-link:hover {
-                    color: var(--flame-orange) !important;
+                    color: var(--primary-400) !important;
                     transform: translateX(10px);
                 }
             `}</style>
@@ -269,10 +273,12 @@ export default function RootLayout({ children }) {
                 <main>{children}</main>
 
                 <footer style={{
-                    background: 'var(--charcoal-dark)',
-                    borderTop: '2px solid var(--flame-orange)',
-                    padding: '4rem 0 2rem',
-                    marginTop: '6rem'
+                    background: 'var(--bg-secondary)',
+                    borderTop: '3px solid transparent',
+                    borderImage: 'var(--gradient-primary) 1',
+                    padding: '5rem 0 2rem',
+                    marginTop: '6rem',
+                    position: 'relative'
                 }}>
                     <div className="container">
                         <div style={{
