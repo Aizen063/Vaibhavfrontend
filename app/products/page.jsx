@@ -452,6 +452,85 @@ export default function ProductsPage() {
                     border-color: var(--primary-500);
                     box-shadow: var(--shadow-glow-primary);
                 }
+
+                /* Mobile Compact Styles */
+                @media (max-width: 768px) {
+                    .card-cinematic {
+                        padding: 0 !important;
+                    }
+
+                    .card-cinematic > div:first-child {
+                        height: 200px !important;
+                    }
+
+                    .card-cinematic > div:last-child {
+                        padding: 1.25rem 1rem !important;
+                    }
+
+                    .card-cinematic h3 {
+                        font-size: 1.125rem !important;
+                        margin-bottom: 0.625rem !important;
+                    }
+
+                    .card-cinematic > div:last-child > div:first-of-type {
+                        padding: 0.5rem 1rem !important;
+                        margin-bottom: 0.875rem !important;
+                    }
+
+                    .card-cinematic > div:last-child > div:first-of-type span {
+                        font-size: 1.25rem !important;
+                    }
+
+                    .card-cinematic p {
+                        font-size: 0.875rem !important;
+                        margin-bottom: 1rem !important;
+                        line-height: 1.5 !important;
+                    }
+
+                    .product-cta {
+                        padding: 0.75rem 1rem !important;
+                        font-size: 0.95rem !important;
+                    }
+
+                    .card-cinematic span[style*="padding: '0.5rem 1.25rem'"] {
+                        padding: 0.375rem 0.875rem !important;
+                        font-size: 0.8125rem !important;
+                    }
+                }
+
+                @media (max-width: 480px) {
+                    .card-cinematic > div:first-child {
+                        height: 180px !important;
+                    }
+
+                    .card-cinematic > div:last-child {
+                        padding: 1rem 0.875rem !important;
+                    }
+
+                    .card-cinematic h3 {
+                        font-size: 1rem !important;
+                        margin-bottom: 0.5rem !important;
+                    }
+
+                    .card-cinematic > div:last-child > div:first-of-type {
+                        padding: 0.4375rem 0.875rem !important;
+                        margin-bottom: 0.75rem !important;
+                    }
+
+                    .card-cinematic > div:last-child > div:first-of-type span {
+                        font-size: 1.125rem !important;
+                    }
+
+                    .card-cinematic p {
+                        font-size: 0.8125rem !important;
+                        margin-bottom: 0.875rem !important;
+                    }
+
+                    .product-cta {
+                        padding: 0.625rem 0.875rem !important;
+                        font-size: 0.875rem !important;
+                    }
+                }
             `}</style>
         </div>
     )
