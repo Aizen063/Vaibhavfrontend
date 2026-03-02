@@ -7,7 +7,7 @@ import axios from 'axios'
 import { LogoutIcon, PackageIcon, PlusIcon, EditIcon, TrashIcon, FlameIcon } from '@/app/components/Icons'
 import { getImageUrl } from '@/lib/utils'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-brown-ten-82.vercel.app'
 
 export default function AdminDashboard() {
     const router = useRouter()
