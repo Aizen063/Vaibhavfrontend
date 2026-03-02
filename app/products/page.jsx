@@ -6,7 +6,7 @@ import axios from 'axios'
 import { getImageUrl } from '@/lib/utils'
 import { FlameIcon, ShoppingBagIcon, ArrowRightIcon, SparkleIcon } from '@/app/components/Icons'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-brown-ten-82.vercel.app'
 
 export default function ProductsPage() {
     const [products, setProducts] = useState([])
