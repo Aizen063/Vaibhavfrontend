@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { LockIcon } from '@/app/components/Icons'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-six-sage-18.vercel.app'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://backend-brown-ten-82.vercel.app'
 
 export default function AdminLoginPage() {
     const [credentials, setCredentials] = useState({ username: '', password: '' })
